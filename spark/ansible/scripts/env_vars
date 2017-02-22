@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "export SPARK_HOME=/usr/local/spark" > ~/.bashrc
+echo "export PATH=$PATH:$SPARK_HOME/bin" > ~/.bashrc
+source ~/.bashrc
