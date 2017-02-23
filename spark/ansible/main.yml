@@ -1,0 +1,12 @@
+---
+- hosts: master
+  remote_user: vagrant
+  roles:
+    - base
+    - master
+
+- hosts: worker1, worker2
+  remote_user: vagrant
+  roles:
+    - base
+    - worker

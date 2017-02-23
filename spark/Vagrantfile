@@ -2,9 +2,33 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = true
+  config.hostmanager.manage_guest = true
+  config.hostmanager.ignore_private_ip = false
+  config.hostmanager.include_offline = true
+
   config.vm.box = "ubuntu/trusty64"
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "ansible/setup.yml"
+    ansible.playbook = "ansible/main.yml"
+  end
+
+  config.vm.define "master", primary: true do |master|
+    master.vm.hostname = "master.spark.dev"
+    master.vm.network :private_network, ip: "192.168.52.201"
+
+    master.vm.network :forwarded_port, guest: 8080, host: 8080
+    master.vm.network :forwarded_port, guest: 7077, host: 7077
+  end
+
+  config.vm.define "worker1" do |worker1|
+    worker1.vm.hostname = "worker1.spark.dev"
+    worker1.vm.network :private_network, ip: "192.168.52.203"
+  end
+
+  config.vm.define "worker2" do |worker2|
+    worker2.vm.hostname = "worker2.spark.dev"
+    worker2.vm.network :private_network, ip: "192.168.52.202"
   end
 end

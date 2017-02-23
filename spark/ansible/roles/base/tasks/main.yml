@@ -1,0 +1,53 @@
+---
+
+- name: Add apt repository
+  apt_repository:
+    repo: 'ppa:webupd8team/java'
+    state: present
+  become: yes
+
+- name: Automatically select the Oracle License
+  shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+  become: yes
+
+- name: Install tools
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - git
+    - rsync
+    - netcat
+    - ntp
+    - unzip
+    - supervisor
+    - oracle-java7-installer
+    - scala
+  become: yes
+
+- name: Check for spark installation
+  stat:
+    path: /usr/local/spark
+  register: sym
+
+- name: Download spark
+  unarchive:
+    src: http://apache.mirrors.tds.net/spark/spark-2.1.0/spark-2.1.0-bin-hadoop2.7.tgz
+    dest: /opt
+    remote_src: True
+    owner: vagrant
+    group: vagrant
+  when: sym.stat.islnk is not defined
+  become: yes
+
+- name: Install spark
+  file:
+    src: /opt/spark-2.1.0-bin-hadoop2.7
+    dest: /usr/local/spark
+    state: link
+    owner: vagrant
+    group: vagrant
+  when: sym.stat.islnk is not defined
+  become: yes
+
+- name: Copy spark-env config
+  copy: src=spark-env.sh dest=/usr/local/spark/conf/spark-env.sh
+  become: yes
