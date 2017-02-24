@@ -1,4 +1,4 @@
 ---
 
 - name: Start spark slave
-  shell: exec /usr/local/spark/sbin/start-slave.sh
+  shell: exec /usr/local/spark/sbin/start-slave.sh spark://master.spark.dev:7077
