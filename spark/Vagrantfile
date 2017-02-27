@@ -31,4 +31,14 @@ Vagrant.configure(2) do |config|
     worker2.vm.hostname = "worker2.spark.dev"
     worker2.vm.network :private_network, ip: "192.168.52.202"
   end
+
+  config.vm.define "data1" do |data1|
+    data1.vm.hostname = "data1.spark.dev"
+    data1.vm.network :private_network, ip: "192.168.53.1"
+  end
+
+  config.vm.define "data2" do |data2|
+    data2.vm.hostname = "data2.spark.dev"
+    data2.vm.network :private_network, ip: "192.168.53.2"
+  end
 end

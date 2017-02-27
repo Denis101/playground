@@ -1,0 +1,32 @@
+---
+
+- name: Add apt repository
+  apt_repository:
+    repo: 'ppa:webupd8team/java'
+    state: present
+  become: yes
+
+- name: Automatically select the Oracle License
+  shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+  become: yes
+
+- name: Install tools
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - git
+    - rsync
+    - netcat
+    - ntp
+    - unzip
+    - supervisor
+    - oracle-java8-installer
+  become: yes
+
+- name: Upload scripts
+  copy: src=scripts/ dest=/tmp/ mode=0755
+
+- name: Setup environment variables
+  shell: /tmp/env_vars_base
+
+# We want to remove the vagrant loopback address from /etc/hosts on ALL hosts.
+- lineinfile: dest=/etc/hosts regexp='127.0.1.1' state=absent

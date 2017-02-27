@@ -2,6 +2,8 @@
 
 ML fun with Spark.
 
+Hadoop ansible setup taken from: https://github.com/dwatrous/hadoop-multi-server-ansible
+
 ## Prerequisites
 * vagrant
 * vagrant-hostsupdater plugin

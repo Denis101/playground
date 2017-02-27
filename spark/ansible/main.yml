@@ -2,11 +2,22 @@
 - hosts: master
   remote_user: vagrant
   roles:
-    - base
-    - master
+    - common
+    - spark-base
+    - spark-master
+    - hadoop-base
+    - hadoop-master
 
 - hosts: worker1, worker2
   remote_user: vagrant
   roles:
-    - base
-    - worker
+    - common
+    - spark-base
+    - spark-worker
+
+- hosts: data1, data2
+  remote_user: vagrant
+  roles:
+    - common
+    - hadoop-base
+    - hadoop-data

@@ -1,8 +1,0 @@
----
-
-- name: Copy slaves config
-  copy: src=slaves dest=/usr/local/spark/conf/slaves
-  become: yes
-
-- name: Start spark master
-  shell: exec /usr/local/spark/sbin/start-master.sh
