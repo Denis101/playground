@@ -29,4 +29,6 @@
   shell: /tmp/env_vars_base
 
 # We want to remove the vagrant loopback address from /etc/hosts on ALL hosts.
-- lineinfile: dest=/etc/hosts regexp='127.0.1.1' state=absent
+- name: Remove loopback address from /etc/hosts
+  lineinfile: dest=/etc/hosts regexp='127.0.1.1' state=absent
+  become: yes

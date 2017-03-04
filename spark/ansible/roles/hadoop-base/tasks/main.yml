@@ -11,8 +11,8 @@
 - name: Extract hadoop archive
   unarchive:
     src: /home/{{ hadoop_user }}/hadoop-2.7.1.tar.gz
-    dest: /usr/local owner={{ hadoop_user}}
-    group: {{ hadoop_group }}
+    dest: /usr/local owner={{ hadoop_user }}
+    group: "{{ hadoop_group }}"
     creates: /usr/local/hadoop copy=no
 
 - command: mv /usr/local/hadoop-2.7.1 /usr/local/hadoop creates=/usr/local/hadoop removes=/usr/local/hadoop-2.7.1
